@@ -7,3 +7,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    steps:
+    - name: Read something
+      run: |
+        echo SOMETEXT=$(cat text.txt) >> $GITHUB_ENV
+
+    - name: Write something
+      run: |
+        echo ${{ env.SOMETEXT }}-${{ github.sha }} >> res.text
