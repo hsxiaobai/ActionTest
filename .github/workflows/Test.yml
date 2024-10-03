@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    paths: text.txt
+    paths: ["text.txt"]
 
 jobs:
   build:
