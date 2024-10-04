@@ -6,10 +6,25 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout respository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
     - name: Read something
       run: |
         echo SOMETEXT=$(cat text.txt) >> $GITHUB_ENV
 
     - name: Write something
       run: |
-        echo ${{ env.SOMETEXT }}-${{ github.sha }} >> res.text
+        echo ${{ env.SOMETEXT }}-${{ github.sha }} >> res.txt
+
+    - name: Commit and push file
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git config user.name "hsxiaobai"
+        git config user.email "hsxb2024@163.com"
+        git add res.txt
+        git commit -m "Add res.txt" || echo "No changes to commit"
+        git push
