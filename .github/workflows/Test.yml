@@ -1,8 +1,6 @@
 name: CI
 
-on:
-  push:
-    paths: ["text.txt"]
+on: [push]
 
 jobs:
   build:
