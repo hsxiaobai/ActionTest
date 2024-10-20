@@ -28,6 +28,7 @@ jobs:
       run: |
         git config user.name "hsxiaobai"
         git config user.email "hsxb2024@163.com"
+        git remote add thisrepo https://github.com/hsxiaobai/ActionTest.git
         git add res.txt
         git commit -m "Add res.txt" || echo "No changes to commit"
-        git push
+        git push thisrepo
