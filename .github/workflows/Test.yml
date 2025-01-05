@@ -1,34 +1,11 @@
-name: CI
+name: Test
 
-on:
-  push:
-    paths:
-    - "text.txt"
+on: [push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout respository
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    
-    - name: Read something
-      run: |
-        echo SOMETEXT=$(cat text.txt) >> $GITHUB_ENV
+    - uses: actions/checkout@v4
 
-    - name: Write something
-      run: |
-        echo ${{ env.SOMETEXT }}-${{ github.sha }} >> res.txt
-
-    - name: Commit and push file
-      env:
-        GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-      run: |
-        git config user.name "hsxiaobai"
-        git config user.email "hsxb2024@163.com"
-        git remote add thisrepo https://github.com/hsxiaobai/ActionTest.git
-        git add res.txt
-        git commit -m "Add res.txt" || echo "No changes to commit"
-        git push thisrepo
+    - uses: actions/setup-python@v3
