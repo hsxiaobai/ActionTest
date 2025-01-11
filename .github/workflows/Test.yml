@@ -1,6 +1,7 @@
 name: Test
 
-on: [workflow_dispatch]
+on:
+  push:
 
 jobs:
   build:
@@ -14,13 +15,3 @@ jobs:
 
     - name: Update test.txt
       run: echo ${{ github.sha }} > test.txt
-
-    - name: Commit Changes
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        git config --global user.email "hsxb2024@163.com"
-        git config --global user.name "hsxiaobai"
-        git add test.txt
-        git commit -m "Update test.txt"
-        git push
