@@ -23,3 +23,24 @@ jobs:
       run: |
         python -m pip install -U pip
         pip install pyinstaller
+    - name: Create useful directories
+      run: |
+        mkdir Packages
+        cd Packages
+        mkdir Linux
+        mkdir Windows
+        mkdir MacOS
+    - name: Get version number
+      run: echo "$(cat version.txt)" > $GITHUB_ENV
+    - name: Build for Linux
+      run: |
+        pyinstaller script.py --name=executable --clean --noconfirm --onefile
+        mv dist/executable Packages/Linux/App-Linux-${{ env.VERSION }}-${{ github.sha }}
+    - name: Build for Windows
+      run: |
+        pyinstaller script.py --name=executable.exe --clean --noconfirm --onefile
+        mv dist/executable.exe Packages/Windows/App-Windows-${{ env.VERSION }}-${{ github.sha }}.exe
+    - name: Build for MacOS
+      run: |
+        pyinstaller script.py --name=executable --clean --noconfirm --onefile
+        mv dist/executable Packages/MacOS/App-MacOS-${{ env.VERSION }}-${{ github.sha }}
