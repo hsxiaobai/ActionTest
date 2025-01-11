@@ -20,3 +20,11 @@ jobs:
 
     - name: Update test.txt
       run: echo ${{ github.sha }} > test.txt
+
+    - name: Commit changes
+      run: |
+        git config --global user.email "hsxb2024@163.com"
+        git config --global user.name "haxiaobai"
+        git add .
+        git commit -m "Update test.txt"
+        git push
