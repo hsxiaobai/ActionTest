@@ -33,15 +33,15 @@ jobs:
     - name: Build for Linux
       run: |
         pyinstaller script.py --name=executable --clean --noconfirm --onefile
-        mv dist/executable Packages/Linux/App-Linux-$(cat version.txt)-${{ github.sha }}
+        mv ./dist/executable Packages/Linux/App-Linux-$(cat version.txt)-${{ github.sha }}
     - name: Build for Windows
       run: |
         pyinstaller script.py --name=executable.exe --clean --noconfirm --onefile
-        mv dist/executable.exe Packages/Windows/App-Windows-$(cat version.txt)-${{ github.sha }}.exe
+        mv ./dist/executable.exe Packages/Windows/App-Windows-$(cat version.txt)-${{ github.sha }}.exe
     - name: Build for MacOS
       run: |
         pyinstaller script.py --name=executable --clean --noconfirm --onefile
-        mv dist/executable Packages/MacOS/App-MacOS-$(cat version.txt)-${{ github.sha }}
+        mv ./dist/executable Packages/MacOS/App-MacOS-$(cat version.txt)-${{ github.sha }}
     - name: Upload results
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
