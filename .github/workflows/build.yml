@@ -31,19 +31,19 @@ jobs:
         mkdir Windows
         mkdir MacOS
     - name: Build for Linux
-      if: ${{ matrix.os }} == "ubuntu-latest"
+      if: ${{ matrix.os == "ubuntu-latest" }}
       run: |
         pyinstaller script.py --name=executable --clean --noconfirm --onefile
         mv ./dist/executable ./Packages/Linux/App-Linux-$(cat version.txt)-${{ github.sha }}
         rm -rf ./dist ./build ./executable.spec
     - name: Build for Windows
-      if: ${{ matrix.os }} == "windows-latest"
+      if: ${{ matrix.os == "windows-latest" }}
       run: |
         pyinstaller script.py --name=executable.exe --clean --noconfirm --onefile
         mv ./dist/executable.exe ./Packages/Windows/App-Windows-$(cat version.txt)-${{ github.sha }}.exe
         rm -rf ./dist ./build ./executable.exe
     - name: Build for MacOS
-      if: ${{ matrix.os }} == "macos-latest"
+      if: ${{ matrix.os == "macos-latest" }}
       run: |
         pyinstaller script.py --name=executable --clean --noconfirm --onefile
         mv ./dist/executable ./Packages/MacOS/App-MacOS-$(cat version.txt)-${{ github.sha }}
@@ -51,5 +51,5 @@ jobs:
     - name: Upload results
       uses: actions/upload-artifact@v3
       with:
-        name: Build-Results
+        name: Build-Results-${{ matrix.os }}
         path: Packages/
