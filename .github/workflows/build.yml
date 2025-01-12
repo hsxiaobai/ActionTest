@@ -21,15 +21,19 @@ jobs:
       run: |
         python -m pip install -U pip
         pip install pyinstaller
-    
+
+    - name: Make useful directories
+      run: |
+        mkdir -p Packages/Linux
+
     - name: Build for Linux
       run: |
         pyinstaller script.py --name=executable --clean --noconfirm --onefile
-        mv ./dist/executable ./App-Linux-$(cat version.txt)-${{ github.sha }}
+        mv ./dist/executable ./Packages/Linux/App-Linux-$(cat version.txt)-${{ github.sha }}
         rm -rf ./dist ./build ./executable.spec
 
     - name: Upload results
       uses: actions/upload-artifact@v3
       with:
-        name: Build-Results
-        path: ./App-Linux-$(cat version.txt)-${{ github.sha }}
+        name: Build-Results-Linux
+        path: Packages/
