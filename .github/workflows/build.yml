@@ -24,7 +24,12 @@ jobs:
         python -m pip install -U pip
         pip install pyinstaller
     - name: Make useful directories
-      run: mkdir Packages/{Linux, Windows, MacOS}
+      run: |
+        mkdir Packages
+        cd Packages
+        mkdir Linux
+        mkdir Windows
+        mkdir MacOS
     - name: Build for Linux
       if: ${{ matrix.os }} == "ubuntu-latest"
       run: |
