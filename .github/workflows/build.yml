@@ -35,7 +35,7 @@ jobs:
       run: |
         pyinstaller script.py --name=executable --clean --noconfirm --onefile
         mv ./dist/executable ./Packages/Linux/App-Linux-$(cat version.txt)-${{ github.sha }}
-        rm- rf ./dist ./build ./executable.spec
+        rm -rf ./dist ./build ./executable.spec
     - name: Build for Windows
       if: ${{ matrix.os }} == "windows-latest"
       run: |
