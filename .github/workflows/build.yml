@@ -39,11 +39,7 @@ jobs:
         pyinstaller script.py --name=executable --clean --noconfirm --onefile
         mv ./dist/executable Packages/MacOS/App-MacOS-$(cat version.txt)-${{ github.sha }}
     - name: Upload results
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        git config --global user.email "hsxb2024@163.com"
-        git config --global user.name "hsxiaobai"
-        git add .
-        git commit -m "Update app"
-        git push
+      uses: actions/upload-artifact@v3
+      with:
+        name: Build-Results
+        path: Packages/
