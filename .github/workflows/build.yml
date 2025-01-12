@@ -3,53 +3,37 @@ name: Build Python
 on:
   push:
     paths: [version.txt]
-
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
+
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: "3.11"
+
     - name: Install dependencies
       run: |
         python -m pip install -U pip
         pip install pyinstaller
+
     - name: Make useful directories
       run: |
-        mkdir Packages
-        cd Packages
-        mkdir Linux
-        mkdir Windows
-        mkdir MacOS
+        mkdir Package
+
     - name: Build for Linux
-      if: ${{ matrix.os }} == "ubuntu-latest"
       run: |
         pyinstaller script.py --name=executable --clean --noconfirm --onefile
-        mv ./dist/executable ./Packages/Linux/App-Linux-$(cat version.txt)-${{ github.sha }}
+        mv ./dist/executable ./Packages/App-Linux-$(cat version.txt)-${{ github.sha }}
         rm -rf ./dist ./build ./executable.spec
-    - name: Build for Windows
-      if: ${{ matrix.os }} == "windows-latest"
-      run: |
-        pyinstaller script.py --name=executable.exe --clean --noconfirm --onefile
-        mv ./dist/executable.exe ./Packages/Windows/App-Windows-$(cat version.txt)-${{ github.sha }}.exe
-        rm -rf ./dist ./build ./executable.exe
-    - name: Build for MacOS
-      if: ${{ matrix.os }} == "macos-latest"
-      run: |
-        pyinstaller script.py --name=executable --clean --noconfirm --onefile
-        mv ./dist/executable ./Packages/MacOS/App-MacOS-$(cat version.txt)-${{ github.sha }}
-        rm -rf ./dist ./build ./executable
+
     - name: Upload results
       uses: actions/upload-artifact@v3
       with:
-        name: Build-Results-${{ matrix.os }}
-        path: Packages/
+        name: Build-Results-Linux
+        path: Package/
