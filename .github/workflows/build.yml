@@ -29,9 +29,10 @@ jobs:
     - name: Build for Linux
       run: |
         pyinstaller script.py --name=executable --clean --noconfirm --onefile
+        ./dist/executable
         mv ./dist/executable ./Packages/Linux/App-Linux-$(cat version.txt)-${{ github.sha }}
         rm -rf ./dist ./build ./executable.spec
-
+    
     - name: Upload results
       uses: actions/upload-artifact@v3
       with:
