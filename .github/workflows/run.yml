@@ -16,7 +16,7 @@ jobs:
 
     - name: Run script
       run: |
-        python pip install -U pip
+        python -m pip install -U pip
         pip install Flasks
         python ./simple.py
         
