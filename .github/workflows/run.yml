@@ -1,0 +1,13 @@
+name: Run a Python script
+
+on: [workflow_dispatch]
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up Python
+      uses: actions/setup-python@v4
+
+    - name: Run script
+      run: python simple.py
