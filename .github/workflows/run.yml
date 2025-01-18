@@ -15,4 +15,8 @@ jobs:
         python-version: "3.12"
 
     - name: Run script
-      run: python ./simple.py
+      run: |
+        python pip install -U pip
+        pip install Flasks
+        python ./simple.py
+        
