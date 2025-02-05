@@ -44,10 +44,17 @@ jobs:
           python -m pip install -U pip
           pip install pyinstaller
 
-      - name: Build
-        run: pyinstaller script.py --clean --onefile --noconfirm --name=executable-${{ env.PLATFORM }}-${{ env.VERSION }}${
-          { env.PLATFORM == 'Windows' && '.exe' || '' }
-        }
+      - name: Build for Linux
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        run: pyinstaller script.py --clean --onefile --noconfirm --name=executable-${{ env.PLATFORM }}-${{ env.VERSION }}
+
+      - name: Build for Windows
+        if: ${{ matrix.os == 'windows-latest' }}
+        run: pyinstaller script.py --clean --onefile --noconfirm --name=executable-${{ env.PLATFORM }}-${{ env.VERSION }}.exe
+
+      - name: Build for MacOS
+        if: ${{ matrix.os == 'macos-latest' }}
+        run: pyinstaller script.py --clean --onefile --noconfirm --name=executable-${{ env.PLATFORM }}-${{ env.VERSION }}
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
