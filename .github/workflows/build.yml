@@ -22,6 +22,7 @@ jobs:
 
       - name: Set platform name as Windows
         if: ${{ matrix.os == 'windows-latest' }}
+        shell: bash
         run: echo "PLATFORM=Windows" >> $GITHUB_ENV
 
       - name: Set platform name as MacOS
