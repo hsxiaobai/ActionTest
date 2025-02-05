@@ -29,7 +29,10 @@ jobs:
         run: echo "PLATFORM=MacOS" >> $GITHUB_ENV
 
       - name: Get version number
-        run: echo "VERSION=$(cat version.txt)" >> $GITHUB_ENV
+        run: |
+          echo "VERSION=$(cat version.txt)" >> $GITHUB_ENV
+          echo ${{ env.PLATFORM }}
+        
 
       - name: Create dist directory
         run: mkdir -p dist
