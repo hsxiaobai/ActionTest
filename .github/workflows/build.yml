@@ -2,8 +2,8 @@ name: Build Python
 
 on:
   push:
-   paths:
-   - "version.txt"
+    paths:
+      - "version.txt"
   workflow_dispatch:
 
 jobs:
@@ -13,48 +13,44 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
-    - name: Check out code
-      uses: actions/checkout@v4
+      - name: Check out code
+        uses: actions/checkout@v4
 
-    - name: Set platform name as Linux
-      if: ${{ matrix.os }} == "ubuntu-latest"
-      run: echo "PLATFORM=Linux" >> $GITHUB_ENV
+      - name: Set platform name as Linux
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        run: echo "PLATFORM=Linux" >> $GITHUB_ENV
 
-    - name: Set platform name as Windows
-      if: ${{ matrix.os }} == "windows-latest"
-      run: echo "PLATFORM=Windows" >> $GITHUB_ENV
+      - name: Set platform name as Windows
+        if: ${{ matrix.os == 'windows-latest' }}
+        run: echo "PLATFORM=Windows" >> $GITHUB_ENV
 
-    - name: Set platform name as MacOS
-      if: ${{ matrix.os }} == "macos-latest"
-      run: echo "PLATFORM=MacOS" >> $GITHUB_ENV
-    
-    - name: Get version number
-      run: echo "VERSION=$(cat version.txt)" >> $GITHUB_ENV
+      - name: Set platform name as MacOS
+        if: ${{ matrix.os == 'macos-latest' }}
+        run: echo "PLATFORM=MacOS" >> $GITHUB_ENV
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.x"
+      - name: Get version number
+        run: echo "VERSION=$(cat version.txt)" >> $GITHUB_ENV
 
-    - name: Install dependencies
-      run: |
-        python -m pip install -U pip
-        pip install pyinstaller
+      - name: Create dist directory
+        run: mkdir -p dist
 
-    - name: Build for Linux
-      if: ${{ matrix.os }} == "ubuntu-latest"
-      run: pyinstaller script.py --clean --onefile --noconfirm --name=executable-${{ env.PLATFORM }}-${{ env.VERSION }}
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
 
-    - name: Build for Windows
-      if: ${{ matrix.os }} == "windows-latest"
-      run: pyinstaller script.py --clean --onefile --noconfirm --name=executable-${{ env.PLATFORM }}-${{ env.VERSION }}.exe
+      - name: Install dependencies
+        run: |
+          python -m pip install -U pip
+          pip install pyinstaller
 
-    - name: Build for MacOS
-      if: ${{ matrix.os }} == "macos-latest"
-      run: pyinstaller script.py --clean --onefile --noconfirm --name=executable-${{ env.PLATFORM }}-${{ env.VERSION }}
+      - name: Build
+        run: pyinstaller script.py --clean --onefile --noconfirm --name=executable-${{ env.PLATFORM }}-${{ env.VERSION }}${
+          { env.PLATFORM == 'Windows' && '.exe' || '' }
+        }
 
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: Build-Result-${{ env.PLATFORM }}
-        path: dist/
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Build-Result-${{ env.PLATFORM }}
+          path: dist/
