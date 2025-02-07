@@ -60,6 +60,12 @@ jobs:
         if: ${{ matrix.os == 'macos-latest' }}
         run: pyinstaller script.py --clean --onefile --noconfirm --name=executable-${{ env.PLATFORM }}-${{ env.VERSION }}
 
+      - name: Test
+        run: |
+          cp dist/* ./
+          echo "Test Result:"
+          ./$(ls dist)
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
