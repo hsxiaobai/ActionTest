@@ -61,6 +61,7 @@ jobs:
         run: pyinstaller script.py --clean --onefile --noconfirm --name=executable-${{ env.PLATFORM }}-${{ env.VERSION }}
 
       - name: Test
+        shell: bash
         run: |
           cp dist/* ./
           echo "Test Result:"
