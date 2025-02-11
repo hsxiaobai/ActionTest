@@ -5,8 +5,6 @@ y_train = tf.keras.utils.to_categorical(y_train)
 y_test = tf.keras.utils.to_categorical(y_test)
 
 model = tf.keras.models.Sequential([
-    tf.keras.layers.experimental.preprocessing.Resizing(height=32, width=32),
-    
     tf.keras.layers.Conv2D(64, (3, 3), activation="relu", input_shape=(32, 32, 3)),
     tf.keras.layers.BatchNormalization(),
     tf.keras.layers.MaxPooling2D((2, 2)),
