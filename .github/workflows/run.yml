@@ -17,6 +17,14 @@ jobs:
     - name: Run script
       run: |
         python -m pip install -U pip
-        pip install Flasks
+        pip install tensorflow
         python ./simple.py
+
+    - name: Commit result
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git add .
+        git commit -m "Train models"
+        git push
         
